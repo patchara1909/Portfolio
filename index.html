@@ -26,15 +26,28 @@
     }
 
     body {
-      background:
-        radial-gradient(circle at top left, rgba(255, 77, 77, 0.28), transparent 28%),
-        radial-gradient(circle at bottom right, rgba(0, 174, 255, 0.22), transparent 32%),
-        linear-gradient(135deg, #060101 0%, #140808 45%, #0b0202 100%);
+      background-color: #050202;
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(255, 77, 77, 0.20), transparent 24%),
+        radial-gradient(circle at 85% 20%, rgba(0, 174, 255, 0.18), transparent 22%),
+        radial-gradient(circle at 50% 60%, rgba(255, 255, 255, 0.05), transparent 18%),
+        linear-gradient(180deg, #090505 0%, #070202 45%, #120808 100%);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
-      background-color: #0d0202;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 10%, rgba(255, 255, 255, 0.04), transparent 18%),
+                  radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.03), transparent 16%);
+      pointer-events: none;
+      z-index: -1;
     }
 
     /* Helper Classes สำหรับควบคุมการแสดงผล */
