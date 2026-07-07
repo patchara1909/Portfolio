@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PORTFOLIO - พัชราภรณ์ ขีดขิน</title>
+  
+  <style>
+    /* ==========================================
+       1. RESET & GLOBAL STYLES
+       ========================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      max-width: 100% !important;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #ffffff;
+    }
+
+    body {
+      background-image: linear-gradient(135deg, rgba(8, 8, 20, 0.95), rgba(40, 20, 20, 0.85)),
+                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-color: #0d0202;
+    }
+
+    /* Helper Classes สำหรับควบคุมการแสดงผล */
+    .hidden { display: none !important; }
+    .visible { display: block !important; }
+
+    /* Floating Language Switcher Button (ปุ่มสลับภาษาแบบลอย) */
+    .lang-switcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 8px 16px;
+      border-radius: 20px;
+      color: #ffffff;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .lang-switcher:hover {
+      background: #ffffff;
+      color: #0a0101;
+      transform: scale(1.05);
+    }
+
+    /* ==========================================
+       2. COMPONENTS & LAYOUT STYLES
+       ========================================== */
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px 20px 20px;
+    }
+
+    .hero-inner {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      max-width: 1100px;
+      gap: 40px;
+      width: 100%;
+    }
+
+    .portrait-large {
+      width: 280px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-content h1 {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+      font-weight: 700;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+    }
+
+    .hero-content h2 {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: #dddddd;
+      margin-bottom: 15px;
+      line-height: 1.6;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+
+    .hero-content p {
+      color: #b5b5b5;
+      margin-bottom: 25px;
+      line-height: 1.6;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      font-weight: 600;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    }
+
+    /* ปุ่มกดสไตล์มินิมอลสีขาว */
+    .btn {
+      display: inline-block;
+      padding: 12px 32px;
+      background: #ffffff;
+      color: #0a0101;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 600;
+      margin-right: 15px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    .btn:hover {
+      background: #ffffff;
+      color: #ff4d4d;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Sections */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .section-title {
+      margin-bottom: 25px;
+      border-left: 4px solid #ffffff;
+      padding-left: 15px;
+    }
+
+    .section-title h3 {
+      font-size: 2rem;
+      margin-top: 5px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    /* Grids & Cards */
+    .toc-grid, .card-grid, .card-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card, .toc-card {
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 22px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: #ffffff;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .toc-card:hover, .card:hover {
+      transform: translateY(-5px);
+      background: rgba(0, 0, 0, 0.6);
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .card h4, .toc-card h4 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .card p, .toc-card p {
+      color: #e0e0e0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    ul {
+      list-style-position: inside;
+      color: #e0e0e0;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .certificate-toggle {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #ffffff;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 12px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .certificate-toggle:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .certificate-image {
+      width: 100%;
+      margin-top: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      color: #aaa;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+    }
+
+    /* ==========================================
+       3. RESUME & PROJECT VIEW STYLES
+       ========================================== */
+    .resume-view-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .resume-action-bar {
+      margin-bottom: 30px;
+    }
+
+    .resume-main-image {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+      }
+      .hero-content h1 {
+        font-size: 2.2rem;
+      }
+      .btn {
+        margin: 8px 5px;
+      }
+      .section {
+        padding: 25px 15px;
+      }
+      .lang-switcher {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button id="lang-btn" class="lang-switcher">EN</button>
+
+  <div id="portfolio-main-page">
+    <header class="hero">
+      <div class="hero-inner">
+        <div class="hero-image">
+          <img src="aum.png" alt="aum" class="portrait-large" />
+        </div>
+        <div class="hero-content">
+          <p class="eyebrow" data-translate="hero-eyebrow">PORTFOLIO</p>
+          <h1 data-translate="hero-name">นางสาว พัชราภรณ์ ขีดขิน</h1>
+          <h2 data-translate="hero-title">นักศึกษาคณะวิศวกรรมศาสตร์และเทคโนโลยีอุตสาหกรรม สาขาวิศวกรรมคอมพิวเตอร์ เอก Robot & Automation มหาวิทยาลัยราชภัฎพิบูลสงคราม</h2>
+          <p data-translate="hero-desc">สนใจด้าน Artificial Intelligence, Internet of Things, Data Analytics และการพัฒนาซอฟต์แวร์สำหรับแก้ปัญหาและสร้างนวัตกรรม</p>
+          <a href="#toc" class="btn" data-translate="btn-toc">ดูสารบัญ</a>
+          <button type="button" id="open-resume-btn" class="btn" data-translate="btn-resume">เรซูเม่</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="toc" class="section">
+        <div class="section-title">
+          <p class="eyebrow" data-translate="toc-eyebrow">สารบัญ</p>
+          <h3 data-translate="toc-title">เมนูหมวดหมู่</h3>
+        </div>
+        <div class="toc-grid">
+          <a class="toc-card" href="#about">
+            <h4 data-translate="toc-about-h">ประวัติส่วนตัว</h4>
+            <p data-translate="toc-about-p">ข้อมูลพื้นฐาน ทักษะและความสนใจ</p>
+          </a>
+          <a class="toc-card" href="#education">
+            <h4 data-translate="toc-edu-h">ประวัติการศึกษา</h4>
+            <p data-translate="toc-edu-p">ระดับการศึกษาและสถานศึกษา</p>
+          </a>
+          <a class="toc-card" href="#skills">
+            <h4 data-translate="toc-skills-h">ประสบการณ์ฝึกทักษะ</h4>
+            <p data-translate="toc-skills-p">ทักษะด้านซอฟต์และฮาร์ดแวร์</p>
+          </a>
+          <a class="toc-card" href="#activities">
+            <h4 data-translate="toc-act-h">กิจกรรมและฝึกอบรม</h4>
+            <p data-translate="toc-act-p">โครงการอบรม แข่งขัน และกิจกรรม</p>
+          </a>
+          <a class="toc-card" href="#projects">
+            <h4 data-translate="toc-proj-h">โครงการที่เคยทำ</h4>
+            <p data-translate="toc-proj-p">ผลงานและโปรเจกต์เด่น</p>
+          </a>
+          <a class="toc-card" href="#certificates">
+            <h4 data-translate="toc-cert-h">เกียรติบัตร</h4>
+            <p data-translate="toc-cert-p">หลักฐานการฝึกอบรมและรางวัล</p>
+          </a>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-title">
+          <p class="eyebrow" data-translate="about-eyebrow">ประวัติส่วนตัว</p>
+          <h3 data-translate="about-title">ข้อมูลพื้นฐาน</h3>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <h4 data-translate="about-info-h">ข้อมูลทั่วไป</h4>
+            <ul>
+              <li data-translate="about-name">ชื่อ: นางสาว พัชราภรณ์ ขีดขิน</li>
+              <li data-translate="about-nickname">ชื่อเล่น : อั้ม</li>
+              <li data-translate="about-birthday">วันเกิด: 19 กันยายน 2547</li>
+              <li data-translate="about-age">อายุ: 21 ปี</li>
+              <li data-translate="about-nationality">สัญชาติ : ไทย</li>
+              <li data-translate="about-religion">ศาสนา : พุทธ</li>
+              <li data-translate="about-blood">กรุ๊ปเลือด : -</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h4 data-translate="about-addr-h">ที่อยู่</h4>
+            <p data-translate="about-addr-p">202 ม.5 ต.ป่างิ้ว อ.ศรีสัชนาลัย จ.สุโขทัย 64130</p>
+            <br>
+            <h4 data-translate="about-contact-h">ข้อมูลการติดต่อ</h4>
+            <ul>
+              <li>อีเมล: auma66404@gmail.com</li>
+              <li data-translate="about-phone">โทรศัพท์: 096-779-5123</li>
+              <li>LINE ID: khedkin_0909</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h4 data-translate="about-goal-h">จุดมุ่งหมาย</h4>
+            <p data-translate="about-goal-p">พัฒนาทักษะด้าน AI, IoT และการพัฒนาซอฟต์แวร์เพื่อสร้างนวัตกรรมที่มีประโยชน์ต่อสังคมและอุตสาหกรรม</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="education" class="section">
+        <div class="section-title">
+          <p class="eyebrow" data-translate="edu-eyebrow">ประวัติการศึกษา</p>
+          <h3 data-translate="edu-title">สถานศึกษาและระดับการเรียน</h3>
+        </div>
+        <div class="card-list">
+          <article class="card">
+            <h4 data-translate="edu-primary-h">ประถมศึกษา</h4>
+            <p><strong data-translate="edu-primary-p">อนุบาลศรีสัชนาลัย(บ้านหาดสูง)</strong></p>
+          </article>
+          <article class="card">
+            <h4 data-translate="edu-secondary-h">มัธยมศึกษาตอนต้น</h4>
+            <p><strong data-translate="edu-secondary-p">โรงเรียนเมืองเชลียง</strong></p>
+            <p data-translate="edu-secondary-g">เกรดเฉลี่ยสะสม 3.06</p>
+          </article>
+          <article class="card">
+            <h4 data-translate="edu-voc-h">ประกาศนียบัตร</h4>
+            <p><strong data-translate="edu-voc-p">วิทยาลัยเทคโนโลยีอุตรดิตถ์</strong></p>
+            <p data-translate="edu-voc-major">สาขาคอมพิวเตอร์ธุรกิจ</p>
+            <p data-translate="edu-voc-g">เกรดเฉลี่ยสะสม 3.56</p>
+          </article>
+          <article class="card">
+            <h4 data-translate="edu-uni-h">ระดับอุดมศึกษา</h4>
+            <p><strong data-translate="edu-uni-p">มหาวิทยาลัยราชภัฏพิบูลสงคราม</strong></p>
+            <p data-translate="edu-uni-g">เกรดเฉลี่ยรวม 3.43 เกรดเฉลี่ยวิชาเอก 3.67</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="section-title">
+          <p class="eyebrow" data-translate="skills-eyebrow">ประสบการณ์ฝึกทักษะ</p>
+          <h3 data-translate="skills-title">ทักษะและความสามารถ</h3>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <h4>Soft Skills</h4>
+            <ul><li>Problem Solving</li><li>Analytical Thinking</li><li>Creativity</li><li>Teamwork</li><li>Communication</li><li>Time Management</li><li>Adaptability</li></ul>
+          </article>
+          <article class="card">
+            <h4>Hard Skills</h4>
+            <ul><li>PLC OMRON</li><li>CAD/CAE Tools</li><li>C/C++</li><li>Python</li><li>JavaScript</li><li>MongoDB</li><li>SQL</li><li>Raspberry Pi</li><li>ESP32</li></ul>
+          </article>
+          <article class="card">
+            <h4>Tools & Platforms</h4>
+            <ul><li>SolidWorks 3D</li><li>Embedded Systems</li><li>IoT</li><li>Automation</li><li>Robotics</li></ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="activities" class="section">
+        <div class="section-title">
+          <p class="eyebrow" data-translate="act-eyebrow">กิจกรรมและฝึกอบรม</p>
+          <h3 data-translate="act-title">ประสบการณ์ด้านกิจกรรม</h3>
+        </div>
+        <div class="card-list">
+          <article class="card certificate-card">
+            <p>PSRU Cyber Hackathon #2</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./Hacka-2.jpg" alt="PSRU Cyber Hackathon #2" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p>PSRU Cyber Hackathon #3</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./Hacka-3.jpeg" alt="PSRU Cyber Hackathon #3" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p>Cyber Net Pro (Fortinet)</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./forti.jpg" alt="Cyber Net Pro (Fortinet)" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p data-translate="act-startup">โครงการการแข่งขัน New Regional Startups ระดับมหาวิทยาลัยราชภัฏพิบูลสงคราม</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./p11.jpg" alt="New Regional Startups" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p data-translate="act-r2m">โครงการการแข่งขัน Research to Market : R2M 2024</p>      
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./R2M-2.jpg" alt="R2M 2024" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p data-translate="act-ai">เข้าร่วมโครงการฝึกอบรมพัฒนาทักษะการใช้ปัญญาประดิษฐ์กับการวิจัย</p>
+             <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./อบรมAI.jpg" alt="เข้าร่วมโครงการฝึกอบรมพัฒนาทักษะการใช้ปัญญาประดิษฐ์กับการวิจัย" class="certificate-image hidden" />
+          </article>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="section-title">
+          <p class="eyebrow" data-translate="proj-eyebrow">โครงการที่เคยทำ</p>
+          <h3 data-translate="proj-title">ผลงานเด่น</h3>
+        </div>
+        <div class="card-list">
+          <article class="card">
+            <h4>Smart Car</h4>
+            <p style="margin-bottom: 12px;" data-translate="proj-smartcar-p">ระบบรถยนต์ไฟฟ้าสำหรับช่วยให้การขับขี่ปลอดภัยและมีประสิทธิภาพ</p>
+            <button type="button" class="btn open-project-btn" data-pdf="Pro1.pdf" style="padding: 6px 16px; font-size: 0.85rem; margin: 0;" data-translate="btn-view-work">ดูผลงาน</button>
+          </article>
+          <article class="card">
+            <h4>EquaChem</h4>
+            <p style="margin-bottom: 12px;" data-translate="proj-equachem-p">แอปพลิเคชันที่เกี่ยวข้องกับการจัดการข้อมูลและการเรียนรู้ด้านเคมี</p>
+            <button type="button" class="btn open-project-btn" data-pdf="Pro2.pdf" style="padding: 6px 16px; font-size: 0.85rem; margin: 0;" data-translate="btn-view-work">ดูผลงาน</button>
+          </article>
+          <article class="card">
+            <h4>Safe Smoke</h4>
+            <p style="margin-bottom: 12px;" data-translate="proj-safesmoke-p">เว็บแอปพลิเคชันสำหรับตรวจจับสถานการณ์ควันและแจ้งเตือนความปลอดภัย</p>
+            <button type="button" class="btn open-project-btn" data-pdf="Pro3.pdf" style="padding: 6px 16px; font-size: 0.85rem; margin: 0;" data-translate="btn-view-work">ดูผลงาน</button>
+          </article>
+          <article class="card">
+            <h4>Automatic Attendance System</h4>
+            <p style="margin-bottom: 12px;" data-translate="proj-attendance-p">ระบบตรวจสอบการเข้างานด้วยการจดจำใบหน้าและการยืนยันตัวตนแบบ 2FA</p>
+            <button type="button" class="btn open-project-btn" data-pdf="Pro4.pdf" style="padding: 6px 16px; font-size: 0.85rem; margin: 0;" data-translate="btn-view-work">ดูผลงาน</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="certificates" class="section">
+        <div class="section-title">
+          <p class="eyebrow" data-translate="cert-eyebrow">เกียรติบัตร</p>
+          <h3 data-translate="cert-title">ใบรับรองและรางวัล</h3>
+        </div>
+        <div class="card-list">
+          <article class="card certificate-card">
+            <p>PSRU Cyber Hackathon #2</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./psru-cyber-hackathon-2.jpg" alt="PSRU Cyber Hackathon #2" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p>PSRU Cyber Hackathon #3</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./psru-cyber-hackathon-3.jpg" alt="PSRU Cyber Hackathon #3" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p>Women Thailand Cyber Top Talent 2024</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./Women Thailand Cyber Top Talent 2024.jpg" alt="Women Thailand Cyber Top Talent 2024" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p>Cyber Net Pro (Fortinet)</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <div class="certificate-images">
+              <figure style="margin-top: 15px;">
+                <img src="./fortinet.png" alt="Cyber Net Pro Fortinet 1" class="certificate-image hidden" />
+                <figcaption style="font-size:0.85rem; color:#aaa; margin-top:5px;">successfully completed the course<br>Getting Started in Cybersecurity 3.0</figcaption>
+              </figure>
+              <figure style="margin-top: 15px;">
+                <img src="./fortinet2.png" alt="Cyber Net Pro Fortinet 2" class="certificate-image hidden" />
+                <figcaption style="font-size:0.85rem; color:#aaa; margin-top:5px;">successfully completed the course<br>Technical Introduction to Cybersecurity 3.0</figcaption>
+              </figure>
+              <figure style="margin-top: 15px;">
+                <img src="./fortinet.3.png" alt="Cyber Net Pro Fortinet 3" class="certificate-image hidden" />
+                <figcaption style="font-size:0.85rem; color:#aaa; margin-top:5px;">successfully completed the course<br>Introduction to the Threat Landscape 3.0</figcaption>
+              </figure>
+            </div>
+          </article>
+          <article class="card certificate-card">
+            <p>Research to Market :R2M 2024</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./R2M.jpg" alt="Research to Market :R2M 2024" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p>New Regional Startups</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./P1.jpg" alt="New Regional Startups" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p data-translate="cert-python">อบรม Python และการพัฒนาแอปพลิเคชัน</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./Python.png" alt="อบรม Python" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p data-translate="cert-iot">อบรมการพัฒนาทักษะด้าน IoT และระบบอัตโนมัติสำหรับนักศึกษาหลักสูตรวิศวกรรมคอมพิวเตอร์</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./IoT.png" alt="อบรมการพัฒนาทักษะด้าน IoT และระบบอัตโนมัติสำหรับนักศึกษาหลักสูตรวิศวกรรมคอมพิวเตอร์" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p data-translate="cert-ui">หลักสูตร การออกแบบประสบการณ์ผู้ใช้และส่วนติดต่อผู้ใช้</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./UI.png" alt="หลักสูตร การออกแบบประสบการณ์ผู้ใช้และส่วนติดต่อผู้ใช้" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p data-translate="cert-ai">อบรมการใช้ AI ทำรายงานง่ายกว่าที่คิด</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./AI.jpg" alt="อบรมการใช้ AI ทำรายงานง่ายกว่าที่คิด" class="certificate-image hidden" />
+          </article>
+          <article class="card certificate-card">
+            <p data-translate="cert-story">อบรมการเล่าเรื่องจำเจให้จดจำ</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./เล่าเรื่องไม่จำเจ.png" alt="อบรมการเล่าเรื่องจำเจให้จดจำ" class="certificate-image hidden" />
+          </article>
+           <article class="card certificate-card">
+            <p data-translate="cert-good">เกียรติบัตรเรียนดีปีการศึกษา 2568</p>
+            <button type="button" class="certificate-toggle" data-translate="btn-view-cert">ดูรูปใบรับรอง ▼</button>
+            <img src="./เรียนดี.JPG" alt="เกียรติบัตรเรียนดีปีการศึกษา 2568" class="certificate-image hidden" />
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p data-translate="footer-text">สร้างขึ้นจากไฟล์พอร์ตโฟลิโอ PDF</p>
+    </footer>
+  </div>
+
+  <div id="resume-viewer-page" class="hidden">
+    <div class="resume-view-container">
+      <div class="resume-action-bar">
+        <button type="button" id="close-resume-btn" class="btn" data-translate="btn-back">◀ กลับหน้าหลัก</button>
+      </div>
+      <img src="Patcharaporn.png" alt="Resume - พัชราภรณ์ ขีดขิน" class="resume-main-image" />
+    </div>
+  </div>
+
+  <div id="project-viewer-page" class="hidden">
+    <div class="resume-view-container" style="max-width: 1000px;">
+      <div class="resume-action-bar">
+        <button type="button" id="close-project-btn" class="btn" data-translate="btn-back">◀ กลับหน้าหลัก</button>
+      </div>
+      <iframe id="project-pdf-embed" src="" style="width: 100%; height: 85vh; border: none; border-radius: 12px; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);"></iframe>
+    </div>
+  </div>
+
+  <script>
+    // ข้อมูลคำแปลภาษาไทยและภาษาอังกฤษ
+    const translations = {
+      th: {
+        "hero-eyebrow": "PORTFOLIO",
+        "hero-name": "นางสาว พัชราภรณ์ ขีดขิน",
+        "hero-title": "นักศึกษาคณะวิศวกรรมศาสตร์และเทคโนโลยีอุตสาหกรรม สาขาวิศวกรรมคอมพิวเตอร์ เอก Robot & Automation มหาวิทยาลัยราชภัฎพิบูลสงคราม",
+        "hero-desc": "สนใจด้าน Artificial Intelligence, Internet of Things, Data Analytics และการพัฒนาซอฟต์แวร์สำหรับแก้ปัญหาและสร้างนวัตกรรม",
+        "btn-toc": "ดูสารบัญ",
+        "btn-resume": "เรซูเม่",
+        "btn-back": "◀ กลับหน้าหลัก",
+        "btn-view-work": "ดูผลงาน",
+        "btn-view-cert": "ดูรูปใบรับรอง ▼",
+        "toc-eyebrow": "สารบัญ",
+        "toc-title": "เมนูหมวดหมู่",
+        "toc-about-h": "ประวัติส่วนตัว",
+        "toc-about-p": "ข้อมูลพื้นฐาน ทักษะและความสนใจ",
+        "toc-edu-h": "ประวัติการศึกษา",
+        "toc-edu-p": "ระดับการศึกษาและสถานศึกษา",
+        "toc-skills-h": "ประสบการณ์ฝึกทักษะ",
+        "toc-skills-p": "ทักษะด้านซอฟต์และฮาร์ดแวร์",
+        "toc-act-h": "กิจกรรมและฝึกอบรม",
+        "toc-act-p": "โครงการอบรม แข่งขัน และกิจกรรม",
+        "toc-proj-h": "โครงการที่เคยทำ",
+        "toc-proj-p": "ผลงานและโปรเจกต์เด่น",
+        "toc-cert-h": "เกียรติบัตร",
+        "toc-cert-p": "หลักฐานการฝึกอบรมและรางวัล",
+        "about-eyebrow": "ประวัติส่วนตัว",
+        "about-title": "ข้อมูลพื้นฐาน",
+        "about-info-h": "ข้อมูลทั่วไป",
+        "about-name": "ชื่อ: นางสาว พัชราภรณ์ ขีดขิน",
+        "about-nickname": "ชื่อเล่น : อั้ม",
+        "about-birthday": "วันเกิด: 19 กันยายน 2547",
+        "about-age": "อายุ: 21 ปี",
+        "about-nationality": "สัญชาติ : ไทย",
+        "about-religion": "ศาสนา : พุทธ",
+        "about-blood": "กรุ๊ปเลือด : -",
+        "about-addr-h": "ที่อยู่",
+        "about-addr-p": "202 ม.5 ต.ป่างิ้ว อ.ศรีสัชนาลัย จ.สุโขทัย 64130",
+        "about-contact-h": "ข้อมูลการติดต่อ",
+        "about-phone": "โทรศัพท์: 096-779-5123",
+        "about-goal-h": "จุดมุ่งหมาย",
+        "about-goal-p": "พัฒนาทักษะด้าน AI, IoT และการพัฒนาซอฟต์แวร์เพื่อสร้างนวัตกรรมที่มีประโยชน์ต่อสังคมและอุตสาหกรรม",
+        "edu-eyebrow": "ประวัติการศึกษา",
+        "edu-title": "สถานศึกษาและระดับการเรียน",
+        "edu-primary-h": "ประถมศึกษา",
+        "edu-primary-p": "อนุบาลศรีสัชนาลัย(บ้านหาดสูง)",
+        "edu-secondary-h": "มัธยมศึกษาตอนต้น",
+        "edu-secondary-p": "โรงเรียนเมืองเชลียง",
+        "edu-secondary-g": "เกรดเฉลี่ยสะสม 3.06",
+        "edu-voc-h": "ประกาศนียบัตร",
+        "edu-voc-p": "วิทยาลัยเทคโนโลยีอุตรดิตถ์",
+        "edu-voc-major": "สาขาคอมพิวเตอร์ธุรกิจ",
+        "edu-voc-g": "เกรดเฉลี่ยสะสม 3.56",
+        "edu-uni-h": "ระดับอุดมศึกษา",
+        "edu-uni-p": "มหาวิทยาลัยราชภัฏพิบูลสงคราม",
+        "edu-uni-g": "เกรดเฉลี่ยรวม 3.43 เกรดเฉลี่ยวิชาเอก 3.67",
+        "skills-eyebrow": "ประสบการณ์ฝึกทักษะ",
+        "skills-title": "ทักษะและความสามารถ",
+        "act-eyebrow": "กิจกรรมและฝึกอบรม",
+        "act-title": "ประสบการณ์ด้านกิจกรรม",
+        "act-startup": "โครงการการแข่งขัน New Regional Startups ระดับมหาวิทยาลัยราชภัฏพิบูลสงคราม",
+        "act-r2m": "โครงการการแข่งขัน Research to Market : R2M 2024",
+        "act-ai": "เข้าร่วมโครงการฝึกอบรมพัฒนาทักษะการใช้ปัญญาประดิษฐ์กับการวิจัย",
+        "proj-eyebrow": "โครงการที่เคยทำ",
+        "proj-title": "ผลงานเด่น",
+        "proj-smartcar-p": "ระบบรถยนต์ไฟฟ้าสำหรับช่วยให้การขับขี่ปลอดภัยและมีประสิทธิภาพ",
+        "proj-equachem-p": "แอปพลิเคชันที่เกี่ยวข้องกับการจัดการข้อมูลและการเรียนรู้ด้านเคมี",
+        "proj-safesmoke-p": "เว็บแอปพลิเคชันสำหรับตรวจจับสถานการณ์ควันและแจ้งเตือนความปลอดภัย",
+        "proj-attendance-p": "ระบบตรวจสอบการเข้างานด้วยการจดจำใบหน้าและการยืนยันตัวตนแบบ 2FA",
+        "cert-eyebrow": "เกียรติบัตร",
+        "cert-title": "ใบรับรองและรางวัล",
+        "cert-python": "อบรม Python และการพัฒนาแอปพลิเคชัน",
+        "cert-iot": "อบรมการพัฒนาทักษะด้าน IoT และระบบอัตโนมัติสำหรับนักศึกษาหลักสูตรวิศวกรรมคอมพิวเตอร์",
+        "cert-ui": "หลักสูตร การออกแบบประสบการณ์ผู้ใช้และส่วนติดต่อผู้ใช้",
+        "cert-story": "อบรมการเล่าเรื่องจำเจให้จดจำ",
+        "cert-good": "เกียรติบัตรเรียนดีปีการศึกษา 2568",
+        "footer-text": "สร้างขึ้นจากไฟล์พอร์ตโฟลิโอ PDF"
+      },
+      en: {
+        "hero-eyebrow": "PORTFOLIO",
+        "hero-name": "Miss Patcharaporn Khedkin",
+        "hero-title": "Faculty of Engineering and Industrial Technology, Computer Engineering (Robot & Automation), Pibulsongkram Rajabhat University",
+        "hero-desc": "Interested in Artificial Intelligence, Internet of Things, Data Analytics, and Software Development to create innovations and solve real-world problems.",
+        "btn-toc": "Table of Contents",
+        "btn-resume": "Resume",
+        "btn-back": "◀ Back to Main",
+        "btn-view-work": "View Project",
+        "btn-view-cert": "View Certificate ▼",
+        "toc-eyebrow": "Table of Contents",
+        "toc-title": "Categories",
+        "toc-about-h": "Profile",
+        "toc-about-p": "Personal info, skills, and interests",
+        "toc-edu-h": "Education",
+        "toc-edu-p": "Education background",
+        "toc-skills-h": "Skills & Experience",
+        "toc-skills-p": "Software and hardware skills",
+        "toc-act-h": "Activities & Training",
+        "toc-act-p": "Training, competitions, and activities",
+        "toc-proj-h": "Projects",
+        "toc-proj-p": "Key projects and works",
+        "toc-cert-h": "Certificates",
+        "toc-cert-p": "Certificates and awards",
+        "about-eyebrow": "About Me",
+        "about-title": "Personal Profile",
+        "about-info-h": "General Information",
+        "about-name": "Name: Miss Patcharaporn Khedkin",
+        "about-nickname": "Nickname: Aum",
+        "about-birthday": "Birthdate: September 19, 2004",
+        "about-age": "Age: 21",
+        "about-nationality": "Nationality: Thai",
+        "about-religion": "Religion: Buddhism",
+        "about-blood": "Blood Type: -",
+        "about-addr-h": "Address",
+        "about-addr-p": "202 M.5, Pangiw, Si Satchanalai, Sukhothai, 64130",
+        "about-contact-h": "Contact Info",
+        "about-phone": "Phone: 096-779-5123",
+        "about-goal-h": "Career Objective",
+        "about-goal-p": "To leverage and develop skills in AI, IoT, and Software Development to build impactful innovations for society and industries.",
+        "edu-eyebrow": "Education",
+        "edu-title": "Education Background",
+        "edu-primary-h": "Primary School",
+        "edu-primary-p": "Anuban Si Satchanalai School (Ban Hat Sung)",
+        "edu-secondary-h": "Junior High School",
+        "edu-secondary-p": "Muang Chaliang School",
+        "edu-secondary-g": "GPAX 3.06",
+        "edu-voc-h": "Vocational Certificate",
+        "edu-voc-p": "Uttaradit Technological College",
+        "edu-voc-major": "Business Computer",
+        "edu-voc-g": "GPAX 3.56",
+        "edu-uni-h": "Bachelor's Degree",
+        "edu-uni-p": "Pibulsongkram Rajabhat University",
+        "edu-uni-g": "Overall GPAX: 3.43 | Major GPAX: 3.67",
+        "skills-eyebrow": "Skills & Experience",
+        "skills-title": "Skills & Capabilities",
+        "act-eyebrow": "Activities",
+        "act-title": "Activity Experience",
+        "act-startup": "New Regional Startups Competition, PSRU Level",
+        "act-r2m": "Research to Market Competition : R2M 2024",
+        "act-ai": "AI Skills for Research Training Program",
+        "proj-eyebrow": "Projects",
+        "proj-title": "Featured Projects",
+        "proj-smartcar-p": "Electric vehicle system for enhanced driving safety and efficiency.",
+        "proj-equachem-p": "An application for data management and learning in Chemistry.",
+        "proj-safesmoke-p": "A web application for smoke detection and security alerts.",
+        "proj-attendance-p": "Automatic attendance checking system using face recognition and 2FA.",
+        "cert-eyebrow": "Certificates",
+        "cert-title": "Certificates & Awards",
+        "cert-python": "Python and Application Development Training",
+        "cert-iot": "IoT & Automation Skills Development for Computer Engineering",
+        "cert-ui": "User Experience and User Interface Design Course",
+        "cert-story": "Storytelling: How to make tedious stories memorable",
+        "cert-good": "Academic Excellence Certificate (Academic Year 2025)",
+        "footer-text": "Created from Portfolio PDF File"
+      }
+    };
+
+    let currentLang = 'th';
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const mainPage = document.getElementById('portfolio-main-page');
+      
+      // --- ระบบสลับภาษา ---
+      const langBtn = document.getElementById('lang-btn');
+      langBtn.addEventListener('click', function() {
+        currentLang = currentLang === 'th' ? 'en' : 'th';
+        langBtn.textContent = currentLang === 'th' ? 'EN' : 'TH';
+        
+        // ลูปเปลี่ยนข้อความที่มี attribute data-translate
+        document.querySelectorAll('[data-translate]').forEach(el => {
+          const key = el.getAttribute('data-translate');
+          if (translations[currentLang][key]) {
+            // ถ้าเป็นปุ่มใบรับรอง ให้คงเครื่องหมายลูกศรไว้ตามสถานะปัจจุบัน
+            if (key === 'btn-view-cert') {
+              const isVisible = el.nextElementSibling && el.nextElementSibling.classList.contains('visible');
+              el.textContent = currentLang === 'th' 
+                ? (isVisible ? 'ซ่อนรูปใบรับรอง ▲' : 'ดูรูปใบรับรอง ▼')
+                : (isVisible ? 'Hide Certificate ▲' : 'View Certificate ▼');
+            } else {
+              el.textContent = translations[currentLang][key];
+            }
+          }
+        });
+      });
+      
+      // --- 1. ระบบจัดการแสดงผลหน้า เรซูเม่ ---
+      const resumePage = document.getElementById('resume-viewer-page');
+      const openResumeBtn = document.getElementById('open-resume-btn');
+      const closeResumeBtn = document.getElementById('close-resume-btn');
+
+      openResumeBtn.addEventListener('click', function() {
+        mainPage.classList.add('hidden');       
+        resumePage.classList.remove('hidden');  
+        window.scrollTo(0, 0);                  
+      });
+
+      closeResumeBtn.addEventListener('click', function() {
+        resumePage.classList.add('hidden');     
+        mainPage.classList.remove('hidden');    
+      });
+
+      // --- 2. ระบบจัดการเปิดแสดงเอกสาร PDF ของแต่ละผลงาน ---
+      const projectPage = document.getElementById('project-viewer-page');
+      const projectPdfEmbed = document.getElementById('project-pdf-embed');
+      const closeProjectBtn = document.getElementById('close-project-btn');
+      const openProjectBtns = document.querySelectorAll('.open-project-btn');
+
+      openProjectBtns.forEach((btn) => {
+        btn.addEventListener('click', function() {
+          const pdfFile = btn.getAttribute('data-pdf');
+          if (pdfFile) {
+            projectPdfEmbed.setAttribute('src', pdfFile); 
+            mainPage.classList.add('hidden');             
+            projectPage.classList.remove('hidden');       
+            window.scrollTo(0, 0);
+          }
+        });
+      });
+
+      closeProjectBtn.addEventListener('click', function() {
+        projectPage.classList.add('hidden');         
+        mainPage.classList.remove('hidden');         
+        projectPdfEmbed.setAttribute('src', '');     
+      });
+
+      // --- 3. ระบบจัดการเปิด-ปิดภาพเกียรติบัตร ---
+      const toggles = document.querySelectorAll('.certificate-toggle');
+      toggles.forEach((button) => {
+        button.addEventListener('click', function () {
+          const card = button.closest('.certificate-card');
+          if (!card) return;
+          const imgs = Array.from(card.querySelectorAll('.certificate-image'));
+          if (!imgs.length) return;
+          const isVisible = imgs[0].classList.contains('visible');
+          imgs.forEach((img) => {
+            img.classList.toggle('visible', !isVisible);
+            img.classList.toggle('hidden', isVisible);
+          });
+          
+          if (currentLang === 'th') {
+            button.textContent = isVisible ? 'ดูรูปใบรับรอง ▼' : 'ซ่อนรูปใบรับรอง ▲';
+          } else {
+            button.textContent = isVisible ? 'View Certificate ▼' : 'Hide Certificate ▲';
+          }
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>
